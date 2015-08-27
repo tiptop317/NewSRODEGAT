@@ -1,5 +1,6 @@
 package appegat.r.patthrawan.newssrodegat;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,10 +8,40 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Explicit
+    private UserTABLE objUserTABLE;
+    private NewsTABLE objNewsTABLE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Create & Connected Database
+        createConnected();
+
+        //Tester Add New Value
+        //testerAddValue();e
+
+        //Delete All Data
+        deleteAllData();
+
+    }   // onCreate
+
+    private void deleteAllData() {
+        SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("srod.db",MODE_PRIVATE, null);
+        objSqLiteDatabase.delete("userTABLE", null, null);
+        objSqLiteDatabase.delete("newsTABLE", null, null);
+    }
+
+    private void testerAddValue() {
+        objUserTABLE.addNewUser("testuser", "testPass", "ทดสอบชื่อ");
+        objNewsTABLE.addNews("27 Aug 2015","testHead","testDetail","http://image","EGAT");
+    }
+
+    private void createConnected() {
+        objUserTABLE = new UserTABLE(this);
+        objNewsTABLE = new NewsTABLE(this);
     }
 
     @Override
